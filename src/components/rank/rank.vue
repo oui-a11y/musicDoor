@@ -1,5 +1,7 @@
 <template>
-	
+	<div>
+		这是排行
+	</div>
 </template>
 
 <script type="text/ecmascript-6">

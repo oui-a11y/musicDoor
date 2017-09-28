@@ -1,5 +1,7 @@
 <template>
-	
+	<div>
+		这是singer
+	</div>
 </template>
 
 <script type="text/ecmascript-6">
