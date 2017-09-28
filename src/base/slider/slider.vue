@@ -4,7 +4,7 @@
 			<slot></slot>
 		</div>
 		<div class="dots">
-			<span class="dot"></span>
+			<span class="dot" v-for="(item,index) in dots" :class="{active:currentPageIndex === index}"></span>
 		</div>
 	</div>
 </template>
@@ -30,14 +30,15 @@
 		},
 		data(){
 			return {
-				currentPageIndex:0
+				currentPageIndex:0,
+				dots:[]
 			}
 		},
 		mounted(){
 			setTimeout(()=>{
 				this._setSliderWidth();
 				this._initSlider();
-
+				this._initDots();
 				if(this.autoPlay){
 					this._play();
 				}
@@ -62,13 +63,13 @@
 			},
 			_initSlider(){
 				this.slider = new BScroll(this.$refs.slider,{
-          scrollX: true,
-          scrollY: false,
-          momentum: false,
-          snap: true,
-          snapLoop: this.loop,
-          snapThreshold: 0.3,
-          snapSpeed: 400
+		          	scrollX: true,
+		          	scrollY: false,
+		          	momentum: false,
+		          	snap: true,
+		          	snapLoop: this.loop,
+		          	snapThreshold: 0.3,
+		          	snapSpeed: 400
 				});
 
 				this.slider.on('scrollEnd', () => {
@@ -87,10 +88,9 @@
 						clearTimeout(this.timer);
 					}
 				})
-
-
-
-
+			},
+			_initDots(){
+				this.dots = new Array(this.children.length - 2);
 			},
 			_play(){
 				let pageIndex = this.currentPageIndex + 1 ;

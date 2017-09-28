@@ -1,14 +1,17 @@
 <template>
 	<div class="recommend" ref="recommend">
-		<div class="slider-wrapper" ref="sliderWrapper" v-if="recommends.length">
-			<slider>
-				<div v-for="item in recommends">
-					<a :href="item.linkUrl" >
-						<img class="needsclick" :src="item.picUrl"/>
-					</a>
+		
+			<div class="recommend-content">
+				<div class="slider-wrapper" ref="sliderWrapper" v-if="recommends.length">
+					<slider>
+						<div v-for="item in recommends">
+							<a :href="item.linkUrl" >
+								<img class="needsclick" :src="item.picUrl"/>
+							</a>
+						</div>
+					</slider>
 				</div>
-			</slider>
-		</div>
+			</div>
 	</div>
 
 </template>
