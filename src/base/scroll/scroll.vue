@@ -1,12 +1,12 @@
 <template>
 	<div ref="wrapper">
-		<slot></slot>	
+		<slot></slot>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
 	import BSscroll from 'better-scroll'
-	
+
 	export default {
 		props:{
 			probeType:{
@@ -25,7 +25,11 @@
 			data:{
 				type:Array,
 				default:null
-			}
+			},
+      refreshDelay : {
+			  type:Number,
+        default:20
+      }
 		},
 		mounted(){
 			setTimeout(()=>{
@@ -51,14 +55,14 @@
 			refresh () {
 				this.scroll && this.scroll.refresh();
 			}
-			
-			
+
+
 		},
 		watch:{
 			data () {
 				setTimeout(() => {
 					this.refresh();
-				})
+				},this.refresh)
 			}
 		}
 	}
