@@ -17,14 +17,7 @@
     <scroll :data="songs" @scroll="scroll" :probe-type="probeType" :listen-scroll="listenScroll" class="list"
             ref="list">
       <div class="song-list-wrapper">
-        <ul>
-          <li v-for="song in songs">
-            <div>
-              <h2>{{song.name}}</h2>
-              <p>{{getDesc(song)}}</p>
-            </div>
-          </li>
-        </ul>
+        <song-list @select="selectItem" :songs="songs"></song-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
@@ -36,7 +29,9 @@
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import SongList from 'base/song-list/song-list'
   import {prefixStyle} from 'common/js/dom.js'
+  import {mapActions} from 'vuex'
 
   const RESERVED_HEIGHT = 40;
   const transform = prefixStyle('transform');
@@ -85,7 +80,17 @@
       },
       scroll(pos) {
         this.scrollY = pos.y;
-      }
+      },
+      selectItem(item, index) {
+        console.log(item,index);
+        this.selectPlay({
+          list:this.songs,
+          index
+        })
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     },
     watch: {
       scrollY(newVal) {
@@ -118,7 +123,8 @@
     },
     components: {
       Scroll,
-      Loading
+      Loading,
+      SongList
     }
 
   }
