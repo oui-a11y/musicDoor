@@ -37,7 +37,7 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
-              <progress-bar :percent="percent"></progress-bar>
+              <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar>
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
@@ -71,8 +71,8 @@
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
-          <progress-circle>
-            <i class="icon-mini"></i>
+          <progress-circle :radius="radius" :percent="percent">
+            <i class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
         <div class="control">
@@ -98,17 +98,21 @@
     data() {
       return {
         songReady: false,
-        currentTime: 0
+        currentTime: 0,
+        radius:32
       }
     },
     computed: {
       playIcon() {
         return this.playing ? 'icon-pause' : 'icon-play'
       },
+      miniIcon() {
+        return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+      },
       disableClas() {
         return this.songReady ? '' : 'disable'
       },
-      percent(){
+      percent() {
         return this.currentTime / this.currentSong.duration;
       },
       ...mapGetters([
@@ -131,7 +135,7 @@
       },
       _pad(num, n = 2) {
         let len = num.toString().length;
-        if(len < 2){
+        if (len < 2) {
           num = '0' + num;
         }
         return num;
@@ -240,6 +244,13 @@
         const x = -(window.innerWidth / 2 - paddingLeft);
         const y = window.innerHeight - paddingTop - width / 2 - paddingBottom;
         return {x, y, scale}
+      },
+      onProgressBarChange(percent) {
+        const currentTime = this.currentSong.duration * percent;
+        this.$refs.audio.currentTime = currentTime;
+        if (!this.playing) {
+          this.togglePlaying()
+        }
       },
       ...
         mapMutations({
